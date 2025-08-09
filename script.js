@@ -24,6 +24,7 @@ const availableSlotsPerDay = {
 };
 // 定義關閉預約的特定日期（格式: "2025-08-DD"）
 const disabledDates = [
+    "2025-08-15",
     "2025-08-26",
     "2025-08-27",
     "2025-08-28",
