@@ -2,36 +2,61 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #1a1a1a;
+    color: #e0e0e0;
 }
 
 header {
-    background-color: #007bff;
-    color: white;
-    text-align: center;
+    background-color: #000000;
+    color: #ffffff;
+    text-align: left;
     padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    height: 50px; /* 調整Logo高度，根據實際大小修改 */
+    margin-right: 20px; /* Logo與文字間距 */
+}
+
+.header-text {
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    margin: 0 0 10px; /* 與下方的p間距 */
+    font-size: 24px;
+}
+
+header p {
+    margin: 0; /* 重置margin，僅靠h1的bottom margin控制間距 */
+    font-size: 14px;
 }
 
 main {
     max-width: 1200px;
     margin: 20px auto;
     padding: 20px;
-    background-color: white;
+    background-color: #2a2a2a;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
 }
 
 #calendar-table {
     width: 100%;
     border-collapse: collapse;
+    background-color: #333333;
 }
 
 th, td {
-    border: 1px solid #ccc;
+    border: 1px solid #444444;
     padding: 10px;
     text-align: center;
     vertical-align: top;
+    color: #e0e0e0;
 }
 
 td {
@@ -46,13 +71,13 @@ td {
 }
 
 .available {
-    background-color: #28a745;
-    color: white;
+    background-color: #00aaff;
+    color: #ffffff;
 }
 
 .booked {
-    background-color: #dc3545;
-    color: white;
+    background-color: #ff4444;
+    color: #ffffff;
 }
 
 .modal {
@@ -64,27 +89,28 @@ td {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: #2a2a2a;
     margin: 15% auto;
     padding: 20px;
-    border: 1px solid #888;
+    border: 1px solid #444444;
     width: 80%;
     max-width: 400px;
+    color: #e0e0e0;
 }
 
 .close {
-    color: #aaa;
+    color: #aaaaaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
 
 .close:hover {
-    color: black;
+    color: #ffffff;
     cursor: pointer;
 }
 
@@ -93,29 +119,64 @@ form {
     flex-direction: column;
 }
 
-input {
+label {
+    margin-top: 10px;
+    color: #e0e0e0;
+}
+
+input, textarea {
     padding: 10px;
-    margin: 5px 0;
+    margin-top: 5px;
+    border: 1px solid #555555;
+    border-radius: 4px;
+    background-color: #3a3a3a;
+    color: #e0e0e0;
 }
 
 button {
+    margin-top: 20px;
     padding: 10px;
-    background-color: #007bff;
-    color: white;
+    background-color: #00aaff;
+    color: #ffffff;
     border: none;
+    border-radius: 4px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #0088cc;
+}
+
+#available-slots {
+    margin-top: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: #3a3a3a;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 4px;
+    color: #e0e0e0;
 }
 
 footer {
     text-align: center;
     padding: 10px;
-    background-color: #007bff;
-    color: white;
+    background-color: #000000;
+    color: #ffffff;
     position: fixed;
     width: 100%;
     bottom: 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
+}
+
+footer a {
+    color: #00aaff;
+    text-decoration: none;
+    text-shadow: 0 0 5px #00aaff, 0 0 10px #00aaff, 0 0 15px #00aaff;
 }
