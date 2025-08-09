@@ -83,7 +83,7 @@ function generateCalendar() {
             row = tbody.insertRow();
         }
         const cell = row.insertCell();
-        cell.innerHTML = `<strong>${dayObj.day}</strong><br>${dayObj.weekday}`;
+        cell.innerHTML = `<strong>${dayObj.day}</strong><br>`;
        
         const dateStr = `2025-08-${String(dayObj.day).padStart(2, '0')}`;
         const slots = availableSlotsPerDay[dayObj.weekday] || [];
