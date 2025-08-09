@@ -18,11 +18,11 @@ const db = firebase.database();
 // 格式：{ 'weekday': ['09:00', '10:00', '11:00'] }
 // weekday: 'Monday', 'Tuesday', etc.
 const availableSlotsPerDay = {
-    'Monday': ['09:00', '10:00', '11:00'],
-    'Tuesday': ['09:00', '10:00', '11:00'],
-    'Wednesday': ['09:00', '10:00', '11:00'],
-    'Thursday': ['09:00', '10:00', '11:00'],
-    'Friday': ['09:00', '10:00', '11:00'],
+    'Sunday': ['19:00', '20:00'],
+    'Tuesday': ['17:00', '18:00'],
+    'Wednesday': ['17:00', '18:00'],
+    'Friday': ['17:00', '18:00'],
+    'Saturday': ['19:00', '20:00'],
     // 週末預設無，若有空可添加 'Saturday': [...], 'Sunday': [...]
 };
 
