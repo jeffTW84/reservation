@@ -155,14 +155,23 @@ form.onsubmit = (e) => {
         });
     } else if (currentAction === 'cancel') {
         ref.once('value').then(snapshot => {
-            if (snapshot.exists() && snapshot.val().email === email) {
-                ref.remove().then(() => {
-                    alert('取消成功！');
-                    location.reload();
-                });
+            if (snapshot.exists()) {
+                const bookingData = snapshot.val();
+                if (bookingData.email === email) {
+                    ref.remove().then(() => {
+                        alert('取消成功！');
+                        location.reload();
+                    }).catch(error => {
+                        alert('取消失敗，請稍後再試。錯誤：' + error.message);
+                    });
+                } else {
+                    alert('Email不匹配，無法取消。請輸入與預約時相同的email。');
+                }
             } else {
-                alert('Email不匹配，無法取消。');
+                alert('此時段未被預約，無需取消。');
             }
+        }).catch(error => {
+            alert('取消時發生錯誤：' + error.message);
         });
     }
     modal.style.display = 'none';
