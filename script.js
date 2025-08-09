@@ -133,58 +133,90 @@ const closeBtn = document.querySelector('.close');
 const form = document.getElementById('booking-form');
 const title = document.getElementById('modal-title');
 const submitBtn = document.getElementById('submit-btn');
+const nameInput = document.getElementById('name'); // 添加name輸入框參考
 let currentAction, currentDate, currentTime;
+
 function openModal(action, date, time) {
     currentAction = action;
     currentDate = date;
     currentTime = time;
     title.textContent = action === 'book' ? `預約 ${date} ${time}` : `取消 ${date} ${time}`;
     submitBtn.textContent = action === 'book' ? '確認預約' : '確認取消';
+    
+    // 動態管理name輸入框
     if (action === 'cancel') {
-        document.getElementById('name').style.display = 'none';
-        document.querySelector('label[for="name"]').style.display = 'none';
+        nameInput.style.display = 'none';
+        nameInput.removeAttribute('required'); // 移除required屬性
     } else {
-        document.getElementById('name').style.display = 'block';
-        document.querySelector('label[for="name"]').style.display = 'block';
+        nameInput.style.display = 'block';
+        nameInput.setAttribute('required', 'required'); // 添加required屬性
     }
     modal.style.display = 'block';
 }
+
 closeBtn.onclick = () => modal.style.display = 'none';
 window.onclick = (event) => { if (event.target === modal) modal.style.display = 'none'; };
+
 // 表單提交
 form.onsubmit = (e) => {
     e.preventDefault();
-    const name = document.getElementById('name').value;
+    const name = nameInput.value;
     const email = document.getElementById('email').value;
     const ref = db.ref(`appointments/${currentDate}/${currentTime}`);
-   
+    console.log(`Submitting ${currentAction} for ${currentDate} ${currentTime}, email: ${email}`);
+
     if (currentAction === 'book') {
-        ref.set({ booked: true, name, email }).then(() => {
-            alert('預約成功！');
-            location.reload(); // 重新載入更新日曆
-        });
+        if (!name || !email) {
+            alert('請填寫姓名和電子郵件！');
+            return;
+        }
+        ref.set({ booked: true, name, email })
+            .then(() => {
+                console.log('Booking successful');
+                alert('預約成功！');
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Booking failed:', error);
+                alert('預約失敗：' + error.message);
+            });
     } else if (currentAction === 'cancel') {
-        ref.once('value').then(snapshot => {
-            if (snapshot.exists()) {
-                const bookingData = snapshot.val();
-                if (bookingData.email === email) {
-                    ref.remove().then(() => {
-                        alert('取消成功！');
-                        location.reload();
-                    }).catch(error => {
-                        alert('取消失敗，請稍後再試。錯誤：' + error.message);
-                    });
+        if (!email) {
+            alert('請填寫電子郵件！');
+            return;
+        }
+        ref.once('value')
+            .then(snapshot => {
+                console.log('Checking cancellation data:', snapshot.val());
+                if (snapshot.exists()) {
+                    const bookingData = snapshot.val();
+                    if (bookingData.email.toLowerCase() === email.toLowerCase()) {
+                        ref.remove()
+                            .then(() => {
+                                console.log('Cancellation successful');
+                                alert('取消成功！');
+                                location.reload();
+                            })
+                            .catch(error => {
+                                console.error('Cancellation failed:', error);
+                                alert('取消失敗：' + error.message);
+                            });
+                    } else {
+                        console.log('Email mismatch:', bookingData.email, email);
+                        alert('Email不匹配，無法取消。請輸入與預約時相同的email。');
+                    }
                 } else {
-                    alert('Email不匹配，無法取消。請輸入與預約時相同的email。');
+                    console.log('No booking found for this slot');
+                    alert('此時段未被預約，無需取消。');
                 }
-            } else {
-                alert('此時段未被預約，無需取消。');
-            }
-        }).catch(error => {
-            alert('取消時發生錯誤：' + error.message);
-        });
+            })
+            .catch(error => {
+                console.error('Error checking cancellation:', error);
+                alert('取消時發生錯誤：' + error.message);
+            });
     }
-    modal.style.display = 'none';
+    console.log('Closing modal');
+    modal.style.display = 'none'; // 確保模態關閉
 };
 // 初始化
 document.addEventListener('DOMContentLoaded', generateCalendar);
