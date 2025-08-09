@@ -1,12 +1,13 @@
 // 替換成您的Firebase配置
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDrCKxWMeY_7WRQKw1pLB2lMktKK8U_XnQ",
+  authDomain: "reservation-ecfcf.firebaseapp.com",
+  databaseURL: "https://reservation-ecfcf-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "reservation-ecfcf",
+  storageBucket: "reservation-ecfcf.firebasestorage.app",
+  messagingSenderId: "401737381919",
+  appId: "1:401737381919:web:e4b69a8d2f293e20d0bd2a",
+  measurementId: "G-4R6H0NDHKS"
 };
 
 // 初始化Firebase
