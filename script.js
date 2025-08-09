@@ -66,12 +66,15 @@ const daysInAugust = [
     { day: 30, weekday: 'Saturday' },
     { day: 31, weekday: 'Sunday' }
 ];
+// 當前日期（基於系統時間）
+const now = new Date();
+const currentDateStr = now.toISOString().split('T')[0]; // 例如 "2025-08-09"
+
 // 生成日曆
 function generateCalendar() {
     const tbody = document.getElementById('calendar-body');
     let row = tbody.insertRow();
     let dayIndex = 0;
-    // 第一週的空位（8/1是Friday，所以前4格空）
     const firstDayWeekday = daysInAugust[0].weekday;
     const weekdaysOrder = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const startOffset = weekdaysOrder.indexOf(firstDayWeekday);
@@ -83,18 +86,26 @@ function generateCalendar() {
             row = tbody.insertRow();
         }
         const cell = row.insertCell();
-        cell.innerHTML = `<strong>${dayObj.day}</strong><br>`;
-       
+        cell.innerHTML = `<strong>${dayObj.day}</strong><br>${dayObj.weekday}`;
         const dateStr = `2025-08-${String(dayObj.day).padStart(2, '0')}`;
         const slots = availableSlotsPerDay[dayObj.weekday] || [];
        
-        // 檢查日期是否在disabledDates中
+        // 檢查日期是否在disabledDates中或已過期
         if (disabledDates.includes(dateStr)) {
             slots.forEach(slot => {
                 const slotDiv = document.createElement('div');
                 slotDiv.classList.add('slot');
                 slotDiv.textContent = `${slot} (無空)`;
                 slotDiv.style.backgroundColor = '#ccc'; // 灰色表示不可用
+                slotDiv.style.cursor = 'not-allowed'; // 不可點擊
+                cell.appendChild(slotDiv);
+            });
+        } else if (dateStr < currentDateStr) {
+            slots.forEach(slot => {
+                const slotDiv = document.createElement('div');
+                slotDiv.classList.add('slot');
+                slotDiv.textContent = `${slot} (過期)`;
+                slotDiv.style.backgroundColor = '#111'; // 灰色表示不可用
                 slotDiv.style.cursor = 'not-allowed'; // 不可點擊
                 cell.appendChild(slotDiv);
             });
@@ -106,8 +117,6 @@ function generateCalendar() {
                 slotDiv.dataset.time = slot;
                 slotDiv.textContent = slot;
                 cell.appendChild(slotDiv);
-               
-                // 檢查DB狀態
                 checkSlotStatus(dateStr, slot, slotDiv);
             });
         }
