@@ -81,19 +81,12 @@ function generateCalendar(month, tbodyId, startDate) {
         const slots = availableSlotsPerDay[dayObj.weekday] || [];
         // Check if the date is in disabledDates or expired
         if (disabledDates.includes(dateStr)) {
-            slots.forEach(slot => {
-                const slotDiv = document.createElement('div');
-                slotDiv.classList.add('slot');
-                slotDiv.textContent = `${slot} (Unavailable)`;
-                slotDiv.style.backgroundColor = '#ccc';
-                slotDiv.style.cursor = 'not-allowed';
-                cell.appendChild(slotDiv);
-            });
+            return; // Do not render any slots for this date
         } else if (dateStr <= currentDateStr) {
             slots.forEach(slot => {
                 const slotDiv = document.createElement('div');
                 slotDiv.classList.add('slot');
-                slotDiv.textContent = `${slot} (Expired)`;
+                slotDiv.textContent = `(Expired)`;
                 slotDiv.style.backgroundColor = '#111';
                 slotDiv.style.cursor = 'not-allowed';
                 cell.appendChild(slotDiv);
