@@ -12,6 +12,18 @@ const firebaseConfig = {
 // 初始化Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
+// 匿名登入
+firebase.auth().signInAnonymously().catch(function(error) {
+  console.error("登入失敗:", error);
+});
+// 監聽登入狀態變化
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    console.log("使用者已登入，UID:", user.uid);
+  } else {
+    console.log("無使用者登入");
+  }
+});
 // 定義可用時段（您可以在這裡設定有空的日期時間）
 // 格式：{ 'weekday': ['09:00', '10:00', '11:00'] }
 // weekday: 'Monday', 'Tuesday', etc.
@@ -171,12 +183,17 @@ form.onsubmit = (e) => {
     e.preventDefault();
     const name = nameInput.value;
     const email = document.getElementById('email').value;
+    const user = firebase.auth().currentUser;
     const ref = db.ref(`appointments/${currentDate}/${currentTime}`);
-    console.log(`Submitting ${currentAction} for ${currentDate} ${currentTime}, email: ${email}`);
+    console.log(`Submitting ${currentAction} for ${currentDate} ${currentTime}, email: ${email}, user: ${user ? user.uid : 'null'}`);
 
     if (currentAction === 'book') {
         if (!name || !email) {
             alert('請填寫姓名和電子郵件！');
+            return;
+        }
+        if (!user) {
+            alert('請先登入！');
             return;
         }
         ref.set({ booked: true, name, email })
@@ -192,6 +209,10 @@ form.onsubmit = (e) => {
     } else if (currentAction === 'cancel') {
         if (!email) {
             alert('請填寫電子郵件！');
+            return;
+        }
+        if (!user) {
+            alert('請先登入！');
             return;
         }
         ref.once('value')
@@ -225,7 +246,7 @@ form.onsubmit = (e) => {
             });
     }
     console.log('Closing modal');
-    modal.style.display = 'none'; // 確保模態關閉
+    modal.style.display = 'none';
 };
 // 初始化
 document.addEventListener('DOMContentLoaded', generateCalendar);
