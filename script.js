@@ -25,13 +25,14 @@ const availableSlotsPerDay = {
 // Define specific dates to disable booking (format: "2025-MM-DD")
 const disabledDates = [
     "2025-08-15",
+    "2025-08-23",
     "2025-08-26",
     "2025-08-27",
     "2025-08-28",
     "2025-08-29",
     "2025-08-30",
-    "2025-09-15",
-    "2025-09-16"
+    "2025-08-31",
+    "2025-09-05",
     // Add other dates you want to disable
 ];
 // Dynamically generate days and weekdays for August and September 2025
