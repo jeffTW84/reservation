@@ -100,7 +100,7 @@ function generateCalendar() {
                 slotDiv.style.cursor = 'not-allowed'; // 不可點擊
                 cell.appendChild(slotDiv);
             });
-        } else if (dateStr < currentDateStr) {
+        } else if (dateStr <= currentDateStr) {
             slots.forEach(slot => {
                 const slotDiv = document.createElement('div');
                 slotDiv.classList.add('slot');
