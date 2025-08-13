@@ -17,8 +17,8 @@ header {
 }
 
 .logo {
-    height: 50px; /* 調整Logo高度，根據實際大小修改 */
-    margin-right: 20px; /* Logo與文字間距 */
+    height: 50px;
+    margin-right: 20px;
 }
 
 .header-text {
@@ -27,12 +27,12 @@ header {
 }
 
 h1 {
-    margin: 0 0 10px; /* 與下方的p間距 */
+    margin: 0 0 10px;
     font-size: 24px;
 }
 
 header p {
-    margin: 0; /* 重置margin，僅靠h1的bottom margin控制間距 */
+    margin: 0;
     font-size: 14px;
 }
 
@@ -45,10 +45,19 @@ main {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
 }
 
-#calendar-table {
+h2 {
+    color: #e0e0e0;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+#calendar-table-august, #calendar-table-september {
     width: 100%;
     border-collapse: collapse;
     background-color: #333333;
+    margin-bottom: 40px;
+    table-layout: fixed; /* Ensure equal column widths */
 }
 
 th, td {
@@ -57,6 +66,7 @@ th, td {
     text-align: center;
     vertical-align: top;
     color: #e0e0e0;
+    width: 14.28%; /* Equal width for 7 columns (100% / 7 ≈ 14.28%) */
 }
 
 td {

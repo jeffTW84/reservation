@@ -1,4 +1,4 @@
-// Replace with your Firebase configuration
+// 替換成您的Firebase配置
 const firebaseConfig = {
   apiKey: "AIzaSyDrCKxWMeY_7WRQKw1pLB2lMktKK8U_XnQ",
   authDomain: "reservation-ecfcf.firebaseapp.com",
@@ -9,12 +9,12 @@ const firebaseConfig = {
   appId: "1:401737381919:web:e4b69a8d2f293e20d0bd2a",
   measurementId: "G-4R6H0NDHKS"
 };
-// Initialize Firebase
+// 初始化Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
-// Define available time slots (you can set available dates and times here)
-// Format: { 'weekday': ['09:00', '10:00', '11:00'] }
-// weekday: 'Sunday', 'Monday', etc.
+// 定義可用時段（您可以在這裡設定有空的日期時間）
+// 格式：{ 'weekday': ['09:00', '10:00', '11:00'] }
+// weekday: 'Monday', 'Tuesday', etc.
 const availableSlotsPerDay = {
     'Sunday': ['19:00', '20:00'],
     'Tuesday': ['17:00', '18:00'],
@@ -22,80 +22,91 @@ const availableSlotsPerDay = {
     'Friday': ['17:00', '18:00'],
     'Saturday': ['19:00', '20:00']
 };
-// Define specific dates to disable booking (format: "2025-MM-DD")
+// 定義關閉預約的特定日期（格式: "2025-08-DD"）
 const disabledDates = [
     "2025-08-15",
     "2025-08-26",
     "2025-08-27",
     "2025-08-28",
     "2025-08-29",
-    "2025-08-30",
-    "2025-09-15",
-    "2025-09-16"
-    // Add other dates you want to disable
+    "2025-08-30"
+    // 添加您想關閉的其他日期
 ];
-// Dynamically generate days and weekdays for August and September 2025
-const daysInAugust = [];
-const daysInSeptember = [];
-const startDateAugust = new Date(2025, 7, 1); // August 1, 2025
-const endDateAugust = new Date(2025, 7, 31);  // August 31, 2025
-const startDateSeptember = new Date(2025, 8, 1); // September 1, 2025
-const endDateSeptember = new Date(2025, 8, 30);  // September 30, 2025
-const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-for (let d = new Date(startDateAugust); d <= endDateAugust; d.setDate(d.getDate() + 1)) {
-    daysInAugust.push({
-        day: d.getDate(),
-        weekday: weekdays[d.getDay()]
-    });
-}
-
-for (let d = new Date(startDateSeptember); d <= endDateSeptember; d.setDate(d.getDate() + 1)) {
-    daysInSeptember.push({
-        day: d.getDate(),
-        weekday: weekdays[d.getDay()]
-    });
-}
-// Current date (based on system time)
+// 2025年8月日子和星期
+const daysInAugust = [
+    { day: 1, weekday: 'Friday' },
+    { day: 2, weekday: 'Saturday' },
+    { day: 3, weekday: 'Sunday' },
+    { day: 4, weekday: 'Monday' },
+    { day: 5, weekday: 'Tuesday' },
+    { day: 6, weekday: 'Wednesday' },
+    { day: 7, weekday: 'Thursday' },
+    { day: 8, weekday: 'Friday' },
+    { day: 9, weekday: 'Saturday' },
+    { day: 10, weekday: 'Sunday' },
+    { day: 11, weekday: 'Monday' },
+    { day: 12, weekday: 'Tuesday' },
+    { day: 13, weekday: 'Wednesday' },
+    { day: 14, weekday: 'Thursday' },
+    { day: 15, weekday: 'Friday' },
+    { day: 16, weekday: 'Saturday' },
+    { day: 17, weekday: 'Sunday' },
+    { day: 18, weekday: 'Monday' },
+    { day: 19, weekday: 'Tuesday' },
+    { day: 20, weekday: 'Wednesday' },
+    { day: 21, weekday: 'Thursday' },
+    { day: 22, weekday: 'Friday' },
+    { day: 23, weekday: 'Saturday' },
+    { day: 24, weekday: 'Sunday' },
+    { day: 25, weekday: 'Monday' },
+    { day: 26, weekday: 'Tuesday' },
+    { day: 27, weekday: 'Wednesday' },
+    { day: 28, weekday: 'Thursday' },
+    { day: 29, weekday: 'Friday' },
+    { day: 30, weekday: 'Saturday' },
+    { day: 31, weekday: 'Sunday' }
+];
+// 當前日期（基於系統時間）
 const now = new Date();
-const currentDateStr = now.toISOString().split('T')[0]; // e.g., "2025-08-13"
-// Generate calendar
-function generateCalendar(month, tbodyId, startDate) {
-    const tbody = document.getElementById(tbodyId);
+const currentDateStr = now.toISOString().split('T')[0]; // 例如 "2025-08-09"
+
+// 生成日曆
+function generateCalendar() {
+    const tbody = document.getElementById('calendar-body');
     let row = tbody.insertRow();
     let dayIndex = 0;
-    const firstDayWeekday = month[0].weekday;
+    const firstDayWeekday = daysInAugust[0].weekday;
     const weekdaysOrder = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const startOffset = weekdaysOrder.indexOf(firstDayWeekday);
     for (let i = 0; i < startOffset; i++) {
         row.insertCell();
     }
-    month.forEach(dayObj => {
+    daysInAugust.forEach(dayObj => {
         if (row.cells.length === 7) {
             row = tbody.insertRow();
         }
         const cell = row.insertCell();
         cell.innerHTML = `<strong>${dayObj.day}</strong><br>`;
-        const monthStr = tbodyId.includes('august') ? '08' : '09';
-        const dateStr = `2025-${monthStr}-${String(dayObj.day).padStart(2, '0')}`;
+        const dateStr = `2025-08-${String(dayObj.day).padStart(2, '0')}`;
         const slots = availableSlotsPerDay[dayObj.weekday] || [];
-        // Check if the date is in disabledDates or expired
+       
+        // 檢查日期是否在disabledDates中或已過期
         if (disabledDates.includes(dateStr)) {
             slots.forEach(slot => {
                 const slotDiv = document.createElement('div');
                 slotDiv.classList.add('slot');
-                slotDiv.textContent = `${slot} (Unavailable)`;
-                slotDiv.style.backgroundColor = '#ccc';
-                slotDiv.style.cursor = 'not-allowed';
+                slotDiv.textContent = `${slot} (無空)`;
+                slotDiv.style.backgroundColor = '#ccc'; // 灰色表示不可用
+                slotDiv.style.cursor = 'not-allowed'; // 不可點擊
                 cell.appendChild(slotDiv);
             });
         } else if (dateStr <= currentDateStr) {
             slots.forEach(slot => {
                 const slotDiv = document.createElement('div');
                 slotDiv.classList.add('slot');
-                slotDiv.textContent = `${slot} (Expired)`;
-                slotDiv.style.backgroundColor = '#111';
-                slotDiv.style.cursor = 'not-allowed';
+                slotDiv.textContent = `${slot} (過期)`;
+                slotDiv.style.backgroundColor = '#111'; // 灰色表示不可用
+                slotDiv.style.cursor = 'not-allowed'; // 不可點擊
                 cell.appendChild(slotDiv);
             });
         } else {
@@ -111,13 +122,13 @@ function generateCalendar(month, tbodyId, startDate) {
         }
     });
 }
-// Check slot status
+// 檢查時段狀態
 function checkSlotStatus(date, time, slotDiv) {
     const ref = db.ref(`appointments/${date}/${time}`);
     ref.once('value').then(snapshot => {
         if (snapshot.exists()) {
             slotDiv.classList.add('booked');
-            slotDiv.textContent = `${time} (Booked)`;
+            slotDiv.textContent = `${time} (已預約)`;
             slotDiv.onclick = () => openModal('cancel', date, time);
         } else {
             slotDiv.classList.add('available');
@@ -125,56 +136,62 @@ function checkSlotStatus(date, time, slotDiv) {
         }
     });
 }
-// Open modal
+// 開啟模態
 const modal = document.getElementById('modal');
 const closeBtn = document.querySelector('.close');
 const form = document.getElementById('booking-form');
 const title = document.getElementById('modal-title');
 const submitBtn = document.getElementById('submit-btn');
-const nameInput = document.getElementById('name');
+const nameInput = document.getElementById('name'); // 添加name輸入框參考
 let currentAction, currentDate, currentTime;
+
 function openModal(action, date, time) {
     currentAction = action;
     currentDate = date;
     currentTime = time;
-    title.textContent = action === 'book' ? `Book ${date} ${time}` : `Cancel ${date} ${time}`;
-    submitBtn.textContent = action === 'book' ? 'Confirm Booking' : 'Confirm Cancellation';
+    title.textContent = action === 'book' ? `預約 ${date} ${time}` : `取消 ${date} ${time}`;
+    submitBtn.textContent = action === 'book' ? '確認預約' : '確認取消';
+    
+    // 動態管理name輸入框
     if (action === 'cancel') {
         nameInput.style.display = 'none';
-        nameInput.removeAttribute('required');
+        nameInput.removeAttribute('required'); // 移除required屬性
     } else {
         nameInput.style.display = 'block';
-        nameInput.setAttribute('required', 'required');
+        nameInput.setAttribute('required', 'required'); // 添加required屬性
     }
     modal.style.display = 'block';
 }
+
 closeBtn.onclick = () => modal.style.display = 'none';
 window.onclick = (event) => { if (event.target === modal) modal.style.display = 'none'; };
-// Form submission
+
+// 表單提交
 form.onsubmit = (e) => {
     e.preventDefault();
     const name = nameInput.value;
     const email = document.getElementById('email').value;
     const ref = db.ref(`appointments/${currentDate}/${currentTime}`);
     console.log(`Submitting ${currentAction} for ${currentDate} ${currentTime}, email: ${email}`);
+
     if (currentAction === 'book') {
         if (!name || !email) {
-            alert('Please fill in name and email!');
+            alert('請填寫姓名和電子郵件！');
             return;
         }
         ref.set({ booked: true, name, email })
             .then(() => {
                 console.log('Booking successful');
-                alert('Booking successful!');
+                alert('預約成功！');
                 location.reload();
             })
             .catch(error => {
                 console.error('Booking failed:', error);
-                alert('Booking failed: ' + error.message);
+                alert('預約失敗：' + error.message);
             });
     } else if (currentAction === 'cancel') {
         if (!email) {
-            alert('Please fill in email!');
+            alert('請填寫電子郵件！');
             return;
         }
         ref.once('value')
@@ -186,32 +203,29 @@ form.onsubmit = (e) => {
                         ref.remove()
                             .then(() => {
                                 console.log('Cancellation successful');
-                                alert('Cancellation successful!');
+                                alert('取消成功！');
                                 location.reload();
                             })
                             .catch(error => {
                                 console.error('Cancellation failed:', error);
-                                alert('Cancellation failed: ' + error.message);
+                                alert('取消失敗：' + error.message);
                             });
                     } else {
                         console.log('Email mismatch:', bookingData.email, email);
-                        alert('Email does not match. Please enter the same email used for booking.');
+                        alert('Email不匹配，無法取消。請輸入與預約時相同的email。');
                     }
                 } else {
                     console.log('No booking found for this slot');
-                    alert('This time slot is not booked and does not require cancellation.');
+                    alert('此時段未被預約，無需取消。');
                 }
             })
             .catch(error => {
                 console.error('Error checking cancellation:', error);
-                alert('Error during cancellation: ' + error.message);
+                alert('取消時發生錯誤：' + error.message);
             });
     }
     console.log('Closing modal');
     modal.style.display = 'none';
 };
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    generateCalendar(daysInAugust, 'calendar-body-august', startDateAugust);
-    generateCalendar(daysInSeptember, 'calendar-body-september', startDateSeptember);
-});
+// 初始化
+document.addEventListener('DOMContentLoaded', generateCalendar);

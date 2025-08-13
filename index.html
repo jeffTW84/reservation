@@ -3,62 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IntelliMotion Matrix - 2025年8月面試預約</title>
+    <title>2025 Interview Reservation Schedule</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
     <header>
-        <img src="media/logo.png" alt="IntelliMotion Matrix Logo" class="logo">
+        <img src="media/logo.png" alt="IntelliMotionMatrix Logo" class="logo">
         <div class="header-text">
-            <h1>2025年8月面試預約時間表</h1>
-            <p>點選藍色時段預約。輸入 email 驗證可取消。</p>
+            <h1>2025 Interview Reservation Schedule</h1>
+            <p>Click on blue time slots to book. Enter email to verify cancellation.</p>
         </div>
     </header>
-    
+
     <main>
-        <section id="calendar">
-            <h2>8月時間表</h2>
-            <table id="calendar-table">
-                <thead>
-                    <tr>
-                        <th>Sun.</th>
-                        <th>Mon.</th>
-                        <th>Tue.</th>
-                        <th>Wed.</th>
-                        <th>Thu.</th>
-                        <th>Fri.</th>
-                        <th>Sat.</th>
-                    </tr>
-                </thead>
-                <tbody id="calendar-body"></tbody>
-            </table>
-        </section>
-        
-        <!-- 預約對話框 -->
+        <h2>8 August</h2>
+        <table id="calendar-table-august">
+            <thead>
+                <tr>
+                    <th>Sun.</th>
+                    <th>Mon.</th>
+                    <th>Tue.</th>
+                    <th>Wed.</th>
+                    <th>Thu.</th>
+                    <th>Fri.</th>
+                    <th>Sat.</th>
+                </tr>
+            </thead>
+            <tbody id="calendar-body-august"></tbody>
+        </table>
+
+        <h2>9 September</h2>
+        <table id="calendar-table-september">
+            <thead>
+                <tr>
+                    <th>Sun.</th>
+                    <th>Mon.</th>
+                    <th>Tue.</th>
+                    <th>Wed.</th>
+                    <th>Thu.</th>
+                    <th>Fri.</th>
+                    <th>Sat.</th>
+                </tr>
+            </thead>
+            <tbody id="calendar-body-september"></tbody>
+        </table>
+
         <div id="modal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2 id="modal-title"></h2>
                 <form id="booking-form">
-                    <label for="name">姓名：</label>
+                    <label for="name">Name：</label>
                     <input type="text" id="name" required>
-                    
-                    <label for="email">電子郵件：</label>
+                    <label for="email">Email：</label>
                     <input type="email" id="email" required>
-                    
-                    <button type="submit" id="submit-btn"></button>
+                    <button type="submit" id="submit-btn">確認</button>
                 </form>
             </div>
         </div>
     </main>
-    
+
     <footer>
-        <p>&copy; 2025 IntelliMotionMatrix INC. All rights reserved.</p>
+        © 2025 IntelliMotionMatrix INC. All rights reserved.
     </footer>
-    
-    <script src="script.js"></script>
 </body>
 </html>
