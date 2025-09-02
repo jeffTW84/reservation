@@ -206,6 +206,5 @@ form.onsubmit = (e) => {
 };
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    generateCalendar(daysInAugust, 'calendar-body-august', startDateAugust);
     generateCalendar(daysInSeptember, 'calendar-body-september', startDateSeptember);
 });
