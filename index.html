@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interview Appointment Schedule for September 2025</title>
+    <title>2025 Interview Reservation Schedule</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -11,15 +11,15 @@
 </head>
 <body>
     <header>
-        <img src="logo.png" alt="IntelliMotionMatrix Logo" class="logo">
+        <img src="media/logo.png" alt="IntelliMotionMatrix Logo" class="logo">
         <div class="header-text">
-            <h1>Interview Appointment Schedule for September 2025</h1>
-            <p>This position requires on-site work. Click on blue time slots to book. Enter email to verify cancellation.</p>
+            <h1>2025 Interview Reservation Schedule</h1>
+            <p>Click on blue time slots to book. Enter email to verify cancellation.</p>
         </div>
     </header>
 
     <main>
-        <h2>September Schedule</h2>
+        <h2>9 September</h2>
         <table id="calendar-table-september">
             <thead>
                 <tr>
@@ -40,9 +40,9 @@
                 <span class="close">&times;</span>
                 <h2 id="modal-title"></h2>
                 <form id="booking-form">
-                    <label for="name">Name:</label>
+                    <label for="name">Name：</label>
                     <input type="text" id="name" required>
-                    <label for="email">Email:</label>
+                    <label for="email">Email：</label>
                     <input type="email" id="email" required>
                     <button type="submit" id="submit-btn">Confirm</button>
                 </form>
