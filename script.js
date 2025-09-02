@@ -24,32 +24,16 @@ const availableSlotsPerDay = {
 };
 // Define specific dates to disable booking (format: "2025-MM-DD")
 const disabledDates = [
-    "2025-08-15",
-    "2025-08-23",
-    "2025-08-26",
-    "2025-08-27",
-    "2025-08-28",
-    "2025-08-29",
-    "2025-08-30",
-    "2025-08-31",
     "2025-09-05",
+    "2025-09-15",
+    "2025-09-16"
     // Add other dates you want to disable
 ];
-// Dynamically generate days and weekdays for August and September 2025
-const daysInAugust = [];
+// Dynamically generate days and weekdays for September 2025
 const daysInSeptember = [];
-const startDateAugust = new Date(2025, 7, 1); // August 1, 2025
-const endDateAugust = new Date(2025, 7, 31);  // August 31, 2025
 const startDateSeptember = new Date(2025, 8, 1); // September 1, 2025
 const endDateSeptember = new Date(2025, 8, 30);  // September 30, 2025
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-for (let d = new Date(startDateAugust); d <= endDateAugust; d.setDate(d.getDate() + 1)) {
-    daysInAugust.push({
-        day: d.getDate(),
-        weekday: weekdays[d.getDay()]
-    });
-}
 
 for (let d = new Date(startDateSeptember); d <= endDateSeptember; d.setDate(d.getDate() + 1)) {
     daysInSeptember.push({
@@ -59,10 +43,14 @@ for (let d = new Date(startDateSeptember); d <= endDateSeptember; d.setDate(d.ge
 }
 // Current date (based on system time)
 const now = new Date();
-const currentDateStr = now.toISOString().split('T')[0]; // e.g., "2025-08-13"
+const currentDateStr = now.toISOString().split('T')[0]; // e.g., "2025-09-02"
 // Generate calendar
 function generateCalendar(month, tbodyId, startDate) {
     const tbody = document.getElementById(tbodyId);
+    if (!tbody) {
+        console.error(`Table body with ID ${tbodyId} not found.`);
+        return;
+    }
     let row = tbody.insertRow();
     let dayIndex = 0;
     const firstDayWeekday = month[0].weekday;
@@ -77,17 +65,19 @@ function generateCalendar(month, tbodyId, startDate) {
         }
         const cell = row.insertCell();
         cell.innerHTML = `<strong>${dayObj.day}</strong><br>`;
-        const monthStr = tbodyId.includes('august') ? '08' : '09';
+        const monthStr = '09';
         const dateStr = `2025-${monthStr}-${String(dayObj.day).padStart(2, '0')}`;
         const slots = availableSlotsPerDay[dayObj.weekday] || [];
-        // Check if the date is in disabledDates or expired
+        // Skip rendering slots for disabled dates
         if (disabledDates.includes(dateStr)) {
             return; // Do not render any slots for this date
-        } else if (dateStr <= currentDateStr) {
+        }
+        // Check if the date is expired
+        if (dateStr <= currentDateStr) {
             slots.forEach(slot => {
                 const slotDiv = document.createElement('div');
                 slotDiv.classList.add('slot');
-                slotDiv.textContent = `(Expired)`;
+                slotDiv.textContent = `${slot} (Expired)`;
                 slotDiv.style.backgroundColor = '#111';
                 slotDiv.style.cursor = 'not-allowed';
                 cell.appendChild(slotDiv);
